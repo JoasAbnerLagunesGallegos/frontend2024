@@ -5,17 +5,17 @@ const links = [
 
   {
     name: 'Google',
-    url: 'https://wwww.google.com'
+    url: 'https://www.google.com'
   },
 
   {
     name: 'Facebook',
-    url: 'https://wwww.facebook.com'
+    url: 'https://www.facebook.com'
   },
 
   {
     name: 'Youtube',
-    url: 'https://wwww.youtube.com'
+    url: 'https://www.youtube.com'
   }
 
 ]
