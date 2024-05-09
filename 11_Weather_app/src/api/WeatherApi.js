@@ -4,5 +4,5 @@ export const getWeather = async () => {
     const response = await fetch(url)
     const weather = await response.json()
 
-    console.log(weather)
+    return weather
 }

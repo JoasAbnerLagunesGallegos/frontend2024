@@ -1,11 +1,14 @@
-import { getWeather } from "./api/WeatherApi"
+import { CityCard } from "./components/CityCard"
 
-function App() {
-getWeather()
+const App = () => {
 
   return (
     <>
-      <div>Weather App</div>
+      <h1>Weather App</h1>
+      <hr />
+      {
+          <CityCard/>
+      }
     </>
   )
 }
