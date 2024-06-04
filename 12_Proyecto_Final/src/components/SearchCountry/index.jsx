@@ -1,10 +1,33 @@
 import { useForm } from "../Hooks/useForm"
 import Swal from 'sweetalert2'
+import ListModal from "./ListModal"
+import { getCountryData } from "../../API/CountryAPI"
+import { useEffect, useState } from "react"
 
-const SearchCountry = ({ setCountry, holiday }) => {
+
+
+const SearchCountry = ({ setCountry }) => {
+
   const [values, handleInputChange, reset] = useForm({
     country: ''
   })
+
+  const [countries, setCountries] = useState(null)
+
+
+    useEffect(() => {
+        const getCountryCodes = async () => {
+            const countryData = await getCountryData()
+            const countriesInfo = countryData.countries.map( countryData => ({
+              name: countryData.name,
+              code: countryData.code
+          }))
+          console.log({countriesInfo})
+          setCountries(countriesInfo)
+        }
+
+        getCountryCodes()
+    }, [])
 
   const handleSearchCountry = () => {
 
@@ -41,13 +64,18 @@ const SearchCountry = ({ setCountry, holiday }) => {
         className="form-control"
         value={values.country} />
 
+      <div>
+        {countries && <ListModal countries={countries}/>}
         <button
           type="button"
-          className="btn btn-success">
-          <i className="bi bi-list-columns-reverse"></i>
+          className="btn btn-success"
+          data-bs-toggle="modal"
+          data-bs-target="#listModal">
+          <i className="bi bi-list-task"></i>
           Codes
         </button>
-        
+      </div>
+
       <button
         className="btn btn-primary"
         type="button"
@@ -55,7 +83,10 @@ const SearchCountry = ({ setCountry, holiday }) => {
         <i className="bi bi-search"></i>
         Search
       </button>
+
+      
     </div>
+
   )
 }
 
