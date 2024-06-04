@@ -4,8 +4,6 @@ import ListModal from "./ListModal"
 import { getCountryData } from "../../API/CountryAPI"
 import { useEffect, useState } from "react"
 
-
-
 const SearchCountry = ({ setCountry }) => {
 
   const [values, handleInputChange, reset] = useForm({
@@ -14,20 +12,20 @@ const SearchCountry = ({ setCountry }) => {
 
   const [countries, setCountries] = useState(null)
 
+  useEffect(() => {
+    const getCountryCodes = async () => {
+      const countryData = await getCountryData()
+      const countriesInfo = countryData.countries.map(countryData => ({
+        name: countryData.name,
+        code: countryData.code,
+        flag: countryData.flag
+      }))
 
-    useEffect(() => {
-        const getCountryCodes = async () => {
-            const countryData = await getCountryData()
-            const countriesInfo = countryData.countries.map( countryData => ({
-              name: countryData.name,
-              code: countryData.code
-          }))
-          console.log({countriesInfo})
-          setCountries(countriesInfo)
-        }
+      setCountries(countriesInfo)
+    }
 
-        getCountryCodes()
-    }, [])
+    getCountryCodes()
+  }, [])
 
   const handleSearchCountry = () => {
 
@@ -43,8 +41,9 @@ const SearchCountry = ({ setCountry }) => {
 
     const newCountry = [values.country]
     setCountry(newCountry)
-    reset()
+    
   }
+
 
   return (
 
@@ -65,7 +64,7 @@ const SearchCountry = ({ setCountry }) => {
         value={values.country} />
 
       <div>
-        {countries && <ListModal countries={countries}/>}
+        {countries && <ListModal countries={countries} />}
         <button
           type="button"
           className="btn btn-success"
@@ -82,10 +81,17 @@ const SearchCountry = ({ setCountry }) => {
         onClick={handleSearchCountry}>
         <i className="bi bi-search"></i>
         Search
-      </button>
+      </button> <br />      
 
-      
+      { countries && 
+         <div className="container card-body text-center">
+        <h4>SELECTED COUNTRY:  <img src={`https://flagsapi.com/${values.country}/flat/64.png`} alt="No country selected / missing country flag"/></h4>
+        </div>
+      }
+
     </div>
+
+    
 
   )
 }

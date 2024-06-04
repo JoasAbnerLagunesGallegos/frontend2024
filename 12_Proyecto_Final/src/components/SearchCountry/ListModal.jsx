@@ -1,9 +1,28 @@
-import React from "react"
+import React, { useState } from "react"
 
 const ListModal = ({ countries }) => {
 
+    const elementosPorPagina = 10;
+    const [paginaActual, setPaginaActual] = useState(1);
 
-    return ( 
+    const elementosPaginados = countries.slice(
+        (paginaActual - 1) * elementosPorPagina,
+        paginaActual * elementosPorPagina
+    )
+
+    const handlePrev = () => {
+        if (paginaActual > 1) {
+            setPaginaActual(paginaActual - 1)
+        }
+    }
+
+    const handleNext = () => {
+        if (paginaActual < 26) {
+            setPaginaActual(paginaActual + 1)
+        }  
+    }
+
+    return (
 
         <div className="modal fade" id="listModal">
             <div className="modal-dialog modal-lg modal-dialog-centered">
@@ -23,14 +42,20 @@ const ListModal = ({ countries }) => {
                             <div className="row text-start">
                                 <div className="col">
 
-                                   {
-                                        countries.map((countryData, index) => (
-                                            <li key={index}>
-                                                Country name: {countryData.name}
-                                                {" "}/ Code: {countryData.code}
-                                            </li>
+                                    {
+
+                                        elementosPaginados.map((countryData, index) => (
+                                            <div key={index}>
+                                                <li key={index}>
+                                                    <img
+                                                        src={`${countryData.flag}`} />
+                                                    {" "} {countryData.name}
+                                                    {" "}/ Code: {countryData.code}
+                                                </li>
+                                            </div>
                                         ))
-                                    }   
+
+                                    }
 
 
                                 </div>
@@ -40,11 +65,29 @@ const ListModal = ({ countries }) => {
                     </div>
                     <div className="modal-footer">
 
+                        <p> Current Page: {paginaActual} of 26</p>
+
+                        <button
+                        type="button"
+                        className="btn btn-outline-danger" 
+                        onClick={handlePrev}
+                        > <i class="bi bi-arrow-bar-left"></i>
+                        Previous</button>
+
+                        <button
+                        type="button"
+                        className="btn btn-outline-success" 
+                        onClick={handleNext}
+                        >Next
+                        <i class="bi bi-arrow-bar-right"></i></button>
+
                         <button
                             type="button"
                             className="btn btn-outline-secondary"
                             data-bs-dismiss="modal"
-                        >Close</button>
+                        >Close
+                        <i class="bi bi-x-lg"></i></button>
+
                     </div>
 
                 </div>

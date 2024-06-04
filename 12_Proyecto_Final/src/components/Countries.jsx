@@ -15,12 +15,11 @@ export const CountryHoliday = ({ country }) => {
         getCountryHolidays()
     }, [country])
 
-
     return (
         <div className='col-1 card m-2' style={{ width: '68rem' }}>
             {
                 holiday ?
-                    <CountryContent holiday={holiday} country={country} /> :
+                    <CountryContent holiday={holiday} country={country}/> :
                     <CountryPlaceHolder />
             }
         </div>
